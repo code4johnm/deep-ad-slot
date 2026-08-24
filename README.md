@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.png" alt="Deep Ad Slot" width="168">
+</p>
+
 # Deep Ad Slot
 
 Give the app a website. It inspects page structure, scores the highest-value ad placements, extracts keywords, maps demand and tracker parties, and can push a briefing into a new GitHub repository.
@@ -119,3 +123,4 @@ reports/<domain>/
 - Some sites hide auctions and ads behind consent / JavaScript. HTML-only fetches then show layout slots plus whatever scripts are inline.
 - Client identifier matching under-counts server-side partners. Use an auction log plus tracker on/off flags when you need those edges.
 - Keyword values and placement scores are relative, not live exchange prices.
+- Branding: `assets/logo.png` (mark), `assets/icon.png` (app icon), `assets/social-preview.png` (1280×640). Set the social image in GitHub → Settings → General → Social preview.
