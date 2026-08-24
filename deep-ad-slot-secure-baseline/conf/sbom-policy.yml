@@ -1,0 +1,71 @@
+# Deep Ad Slot SBOM policy — CISA 2026 minimum elements
+# DAS-SSB-2026-001 / conf/sbom-policy.yml
+# SPDX 3.x is primary. CycloneDX is optional interchange.
+# Store the SBOM with the wheel/tag it describes. Fail closed on release.
+
+schema_version: "1.0"
+product: deep-ad-slot
+document_id: DAS-SSB-SBOM-001
+control_ids: ["SR-3", "SR-4", "RA-5", "SI-7"]
+ssdf: ["PS.3", "PW.4", "RV.1"]
+test_id: TEST-SBOM-01
+
+formats:
+  primary:
+    name: SPDX
+    version: "3.0"
+  optional_interchange:
+    name: CycloneDX
+    version: "1.6"
+
+generation:
+  required_lifecycle_phases: ["build", "release"]
+  context_field: required          # SBOM generation context (lifecycle phase)
+  tool_name_field: required
+  tool_version_field: required
+  format_name_field: required
+  format_version_field: required
+  author_signature: required       # SBOM author signature (detached sig or Sigstore)
+  store_with_artifact: required
+
+coverage:
+  transitive: true
+  depth_limit: null                # no depth limit
+  include_dev_dependencies: false  # release SBOM is runtime+build-backend
+  include_optional_sklearn:
+    default: false
+    note: Include only if the tagged extra set contains scikit-learn (C-SCRM intake required).
+  environment: python_release_venv
+
+component_fields_required:
+  - producer
+  - name
+  - version
+  - hash_value
+  - hash_algorithm
+  - license
+
+hash:
+  algorithms_allowed: ["SHA-256", "SHA-512"]
+  algorithms_forbidden_for_release: ["MD5", "SHA-1"]
+
+vex:
+  required: true
+  known_cve_status: required
+  sources_allowed: ["OSV", "NVD", "GitHub Advisory"]
+  store_with_artifact: required
+
+signing:
+  sbom_author_signature: required
+  artifact_signature: required_for_audit_and_prod
+  key_ceremony: out_of_scope_this_increment
+
+enforcement:
+  missing_field: fail_closed
+  floating_version_in_release_lockfile: fail_closed
+  incomplete_transitive_graph: fail_closed
+  unsigned_sbom_on_prod_tag: fail_closed
+
+ai_sbom:
+  cisa_g7_sbom_for_ai: not_applicable
+  rationale: No generative or dual-use foundation model is shipped; sklearn extra is classical ML and ephemeral.
