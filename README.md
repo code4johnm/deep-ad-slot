@@ -1,18 +1,20 @@
 # AdSlot Scout
 
-Give the app a website. It inspects page structure, scores the highest-value ad placements, extracts keywords, and can push a full briefing into a new GitHub repository.
+Give the app a website. It inspects page structure, scores the highest-value ad placements, extracts keywords, maps demand and tracker parties, and can push a briefing into a new GitHub repository.
 
-This is a **publisher / media-kit helper**, not a CPM guarantee. Scores combine layout signals with current placement research: viewability, above-the-fold leaderboards, in-content after paragraph 2, sticky sidebar, and mobile sticky footer. Real yield still depends on traffic quality, geography, vertical, and demand partners.
+This is a publisher / media-kit helper, not a CPM guarantee. Placement scores combine layout signals with current inventory practice: viewability, above-the-fold leaderboards, in-content after paragraph 2, sticky sidebar, and mobile sticky footer.
 
 ## What it does
 
 1. Fetches the URL and a few same-domain pages.
 2. Detects layout landmarks (header, nav, article, sidebar, footer).
-3. Detects existing ad tech (AdSense, GPT, Prebid, Taboola, and others).
-4. Ranks recommended slots with formats, viewability notes, and implementation hints.
-5. Extracts keywords from titles, headings, meta, and body copy, then expands commercial variants.
-6. Writes a Markdown briefing + JSON payload.
-7. Optionally creates a new GitHub repo and pushes those artifacts.
+3. Detects ad tech (AdSense, GPT, Prebid, Amazon APS, Taboola, measurement tags).
+4. Maps demand and tracker organizations on the page.
+5. Flags client identifier-match URLs. Treats those as a lower bound — partners that never touch the browser are invisible here.
+6. Ranks recommended slots with formats and implementation notes.
+7. Extracts keywords and commercial variants.
+8. Optionally creates a GitHub repo and pushes the briefing.
+9. Optionally ranks which tracker flags move bidder CPMs from a collected auction log.
 
 ## Quick start
 
@@ -39,61 +41,81 @@ export GITHUB_TOKEN=ghp_your_token
 adslot-scout analyze https://example.com --push --repo-name ad-intel-example --private
 ```
 
-Push into an existing repo instead of creating one:
+## Auction log → tracker influence
+
+Collect bids from a client wrapper (`pbjs.getBidResponses()` or equivalent) into a CSV:
+
+```
+bidder,cpm,persona,site,tracker_alphabet,tracker_meta,tracker_doubleverify
+```
+
+`tracker_*` columns are 0/1 flags for whether that organization was allowed to see the session before the auction.
 
 ```bash
-adslot-scout analyze https://example.com --push --owner code4johnm --repo-name existing-repo --no-create-repo
+adslot-scout influence examples/bids.sample.csv
+```
+
+The command reports, per bidder:
+
+- mean CPM delta when a tracker flag is on vs off
+- optional random-forest feature ranks if `scikit-learn` is installed
+
+Interpretation: a tracker that consistently moves a bidder's band (low / mid / high CPM) is treated as a data-sharing edge, whether that edge is in the browser or behind the auction.
+
+Install the optional model extra:
+
+```bash
+pip install scikit-learn
+```
+
+## ads.txt
+
+```bash
+adslot-scout ads-txt https://example.com
 ```
 
 ## GitHub access
 
-The app talks to the GitHub REST API. Create a classic or fine-grained personal access token with:
-
-- `repo` scope (create private repos + commit files)
-
-Fine-grained alternative:
-
-- Contents: write
-- Administration: write only if you want the tool to create new repositories
-
-Put the token in the environment or a `.env` file:
+Create a PAT with `repo` scope. Put it in the environment or `.env`:
 
 ```
 GITHUB_TOKEN=ghp_...
 GITHUB_OWNER=code4johnm
 ```
 
-`--owner` defaults to the authenticated user when omitted.
-
 ## CLI
 
 ```
-adslot-scout analyze URL [OPTIONS]
-
-  --out PATH              Local output directory
-  --max-pages N           Extra same-domain pages to crawl (default 4)
-  --push                  Create/update a GitHub repo with the report
-  --owner NAME            GitHub owner or org
-  --repo-name NAME        Repo name (default ad-intel-<domain>)
-  --private / --public    New repo visibility (default private)
+adslot-scout analyze URL
+  --out PATH
+  --max-pages N
+  --push
+  --owner NAME
+  --repo-name NAME
+  --private / --public
   --create-repo / --no-create-repo
-  --branch NAME           Branch to commit to (default main)
+  --branch NAME
+
+adslot-scout influence BIDS.csv
+adslot-scout ads-txt URL
+adslot-scout dump-json URL
 ```
 
 ## Output
 
 ```
 reports/<domain>/
-  REPORT.md          Human briefing
-  analysis.json      Machine-readable result
-  keywords.csv       Keyword list for ads / SEO
-  placements.json    Ranked slots only
+  REPORT.md
+  analysis.json
+  placements.json
+  keywords.csv
+  parties.json
+  cookie_syncs.json
 ```
-
-When `--push` is used, the same files land in the remote repo under `briefing/`.
 
 ## Notes
 
-- Use this on sites you own or have permission to audit. Respect robots.txt and terms of service.
-- Some sites block generic user agents or load ads only after consent / JavaScript. In those cases the tool still recommends slots from layout.
-- Keyword values are relative commercial-intent scores, not live Google Ads CPCs.
+- Use this on sites you own or have permission to audit.
+- Some sites hide auctions and ads behind consent / JavaScript. HTML-only fetches then show layout slots plus whatever scripts are inline.
+- Client identifier matching under-counts server-side partners. Use an auction log plus tracker on/off flags when you need those edges.
+- Keyword values and placement scores are relative, not live exchange prices.
