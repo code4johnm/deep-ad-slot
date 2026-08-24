@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from typing import Iterable
 
-from adslot_scout.models import AdTechHit, LayoutSignals, PageSnapshot, Placement
+from deep_ad_slot.models import AdTechHit, LayoutSignals, PageSnapshot, Placement
 
 AD_TECH = [
     ("Google AdSense", r"adsbygoogle|googlesyndication\.com/pagead", "network"),
@@ -53,7 +53,7 @@ def infer_layout(pages: list[PageSnapshot]) -> LayoutSignals:
     has_nav = bool(re.search(r"<nav[\s>]", html))
     has_footer = bool(re.search(r"<footer[\s>]", html))
     viewport = ""
-    vm = re.search(r'<meta[^>]+name=[\"']viewport[\"'][^>]*>', html)
+    vm = re.search(r"<meta[^>]+name=[\"']viewport[\"'][^>]*>", html)
     if vm:
         viewport = vm.group(0)[:180]
 

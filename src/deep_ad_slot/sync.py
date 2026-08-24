@@ -4,7 +4,7 @@ import re
 from dataclasses import asdict, dataclass
 from urllib.parse import parse_qs, urlparse
 
-from adslot_scout.orgs import org_for_host
+from deep_ad_slot.orgs import org_for_host
 
 SYNC_PARAMS = {
     "userid",

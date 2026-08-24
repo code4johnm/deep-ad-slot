@@ -5,7 +5,7 @@ import re
 from collections import Counter
 from urllib.parse import urlparse
 
-from adslot_scout.models import Keyword, PageSnapshot
+from deep_ad_slot.models import Keyword, PageSnapshot
 
 STOP = {
     "a", "an", "the", "and", "or", "but", "if", "in", "on", "at", "to", "for", "of", "from",

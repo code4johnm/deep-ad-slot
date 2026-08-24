@@ -6,10 +6,10 @@ from urllib.parse import urljoin, urlparse, urlunparse
 import httpx
 from bs4 import BeautifulSoup
 
-from adslot_scout.models import PageSnapshot
+from deep_ad_slot.models import PageSnapshot
 
 USER_AGENT = (
-    "AdSlotScout/0.1 (+https://github.com/code4johnm/adslot-scout; "
+    "Deep-Ad-Slot/0.1 (+https://github.com/code4johnm/deep-ad-slot; "
     "site-audit; contact via repository issues)"
 )
 

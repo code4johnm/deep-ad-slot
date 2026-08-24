@@ -1,4 +1,4 @@
-# AdSlot Scout
+# Deep Ad Slot
 
 Give the app a website. It inspects page structure, scores the highest-value ad placements, extracts keywords, maps demand and tracker parties, and can push a briefing into a new GitHub repository.
 
@@ -19,26 +19,26 @@ This is a publisher / media-kit helper, not a CPM guarantee. Placement scores co
 ## Quick start
 
 ```bash
-git clone https://github.com/code4johnm/adslot-scout.git
-cd adslot-scout
+git clone https://github.com/code4johnm/deep-ad-slot.git
+cd deep-ad-slot
 python -m venv .venv
 source .venv/bin/activate
 pip install -e .
 
-adslot-scout analyze https://example.com
+deep-ad-slot analyze https://example.com
 ```
 
 Write reports to a folder:
 
 ```bash
-adslot-scout analyze https://example.com --out ./reports/example
+deep-ad-slot analyze https://example.com --out ./reports/example
 ```
 
 Create a GitHub repo and push the briefing (needs `GITHUB_TOKEN`):
 
 ```bash
 export GITHUB_TOKEN=ghp_your_token
-adslot-scout analyze https://example.com --push --repo-name ad-intel-example --private
+deep-ad-slot analyze https://example.com --push --repo-name ad-intel-example --private
 ```
 
 ## Auction log → tracker influence
@@ -52,7 +52,7 @@ bidder,cpm,persona,site,tracker_alphabet,tracker_meta,tracker_doubleverify
 `tracker_*` columns are 0/1 flags for whether that organization was allowed to see the session before the auction.
 
 ```bash
-adslot-scout influence examples/bids.sample.csv
+deep-ad-slot influence examples/bids.sample.csv
 ```
 
 The command reports, per bidder:
@@ -71,7 +71,7 @@ pip install scikit-learn
 ## ads.txt
 
 ```bash
-adslot-scout ads-txt https://example.com
+deep-ad-slot ads-txt https://example.com
 ```
 
 ## GitHub access
@@ -86,7 +86,7 @@ GITHUB_OWNER=code4johnm
 ## CLI
 
 ```
-adslot-scout analyze URL
+deep-ad-slot analyze URL
   --out PATH
   --max-pages N
   --push
@@ -96,9 +96,9 @@ adslot-scout analyze URL
   --create-repo / --no-create-repo
   --branch NAME
 
-adslot-scout influence BIDS.csv
-adslot-scout ads-txt URL
-adslot-scout dump-json URL
+deep-ad-slot influence BIDS.csv
+deep-ad-slot ads-txt URL
+deep-ad-slot dump-json URL
 ```
 
 ## Output

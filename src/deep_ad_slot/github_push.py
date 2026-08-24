@@ -23,7 +23,7 @@ class GitHubClient:
             "Authorization": f"Bearer {self.token}",
             "Accept": "application/vnd.github+json",
             "X-GitHub-Api-Version": "2022-11-28",
-            "User-Agent": "adslot-scout",
+            "User-Agent": "deep-ad-slot",
         }
 
     def _request(self, method: str, path: str, **kwargs: Any) -> httpx.Response:
@@ -102,5 +102,5 @@ class GitHubClient:
         else:
             html = f"https://github.com/{owner}/{repo}"
         for path, content in files.items():
-            self.put_file(owner, repo, path, content, f"Add {path} from AdSlot Scout", branch)
+            self.put_file(owner, repo, path, content, f"Add {path} from Deep Ad Slot", branch)
         return html

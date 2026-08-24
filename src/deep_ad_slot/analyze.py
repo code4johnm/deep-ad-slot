@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from adslot_scout.fetch import domain_of, fetch_site, normalize_url
-from adslot_scout.header_bidding import inspect_header_auction, parties_on_page
-from adslot_scout.keywords import extract_keywords
-from adslot_scout.models import Analysis
-from adslot_scout.placements import detect_ad_tech, infer_layout, recommend_placements
-from adslot_scout.sync import detect_cookie_syncs
+from deep_ad_slot.fetch import domain_of, fetch_site, normalize_url
+from deep_ad_slot.header_bidding import inspect_header_auction, parties_on_page
+from deep_ad_slot.keywords import extract_keywords
+from deep_ad_slot.models import Analysis
+from deep_ad_slot.placements import detect_ad_tech, infer_layout, recommend_placements
+from deep_ad_slot.sync import detect_cookie_syncs
 
 
 def analyze_site(url: str, max_pages: int = 5) -> Analysis:

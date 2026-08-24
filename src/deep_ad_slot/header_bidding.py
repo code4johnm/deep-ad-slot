@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from dataclasses import asdict, dataclass, field
 
-from adslot_scout.orgs import org_for_host
+from deep_ad_slot.orgs import org_for_host
 
 PREBID_MARKERS = (
     r"prebid\.js",

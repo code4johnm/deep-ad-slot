@@ -3,7 +3,7 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "adslot-scout"
+name = "deep-ad-slot"
 version = "0.1.0"
 description = "Find high-value ad placements and keywords for a website, then push a briefing to GitHub."
 readme = "README.md"
@@ -19,7 +19,7 @@ dependencies = [
 ]
 
 [project.scripts]
-adslot-scout = "adslot_scout.cli:app"
+deep-ad-slot = "deep_ad_slot.cli:app"
 
 [tool.setuptools.packages.find]
 where = ["src"]

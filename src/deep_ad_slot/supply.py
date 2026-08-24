@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 
 import httpx
 
-from adslot_scout.fetch import USER_AGENT, domain_of, normalize_url
+from deep_ad_slot.fetch import USER_AGENT, domain_of, normalize_url
 
 
 def fetch_ads_txt(site: str, timeout: float = 15.0) -> list[str]:
