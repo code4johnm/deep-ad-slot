@@ -93,6 +93,10 @@ class Analysis:
     placements: list[Placement]
     keywords: list[Keyword]
     summary: str
+    header_auction: dict[str, Any] = field(default_factory=dict)
+    parties: list[dict[str, Any]] = field(default_factory=list)
+    cookie_syncs: list[dict[str, Any]] = field(default_factory=list)
+    sharing_notes: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -101,6 +105,10 @@ class Analysis:
             "summary": self.summary,
             "layout": self.layout.to_dict(),
             "ad_tech": [hit.to_dict() for hit in self.ad_tech],
+            "header_auction": self.header_auction,
+            "parties": self.parties,
+            "cookie_syncs": self.cookie_syncs,
+            "sharing_notes": self.sharing_notes,
             "placements": [p.to_dict() for p in self.placements],
             "keywords": [k.to_dict() for k in self.keywords],
             "pages": [p.to_dict() for p in self.pages],

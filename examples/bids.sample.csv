@@ -1,0 +1,17 @@
+bidder,cpm,persona,site,tracker_alphabet,tracker_meta,tracker_doubleverify,tracker_liveramp,tracker_criteo
+AppNexus,1.20,health,example.com,1,0,1,0,0
+AppNexus,0.40,health,example.com,0,0,0,0,0
+AppNexus,2.10,health-intent,example.com,1,0,1,1,0
+AppNexus,0.55,control,example.com,0,0,0,0,0
+IndexExchange,0.90,health,example.com,1,0,0,1,0
+IndexExchange,0.20,control,example.com,0,0,0,0,0
+IndexExchange,1.80,health-intent,example.com,1,1,0,1,0
+OpenX,3.10,health-intent,example.com,1,0,0,0,1
+OpenX,0.50,control,example.com,0,0,0,0,0
+OpenX,1.40,health,example.com,1,0,0,0,1
+Rubicon,0.80,sports,example.com,0,1,0,0,0
+Rubicon,0.15,control,example.com,0,0,0,0,0
+Rubicon,2.40,health-intent,example.com,1,0,1,1,0
+PubMatic,0.00,control,example.com,0,0,0,0,0
+PubMatic,0.00,sports,example.com,0,1,0,0,0
+PubMatic,1.10,health,example.com,1,0,0,1,0
