@@ -7,10 +7,12 @@ Build from the repo root so the Dockerfile can see `src/`:
 ```bash
 cd /mnt/5TB/git/github/deep-ad-slot
 docker build -f deploy/Dockerfile -t deep-ad-slot:weekly .
-docker save deep-ad-slot:weekly | ~/bin/agent-sudo.sh k3s ctr images import -
-kubectl apply -f deploy/k8s/weekly-cronjob.yaml
 ```
 
-The schedule is `0 15 * * 1` (Monday 15:00, cluster local time). `imagePullPolicy` is `Never`, so the import step has to happen on this machine before the job runs.
+Architecture v2 (2026-11-03 15:01 ET) says only the bus listener is orchestrated by Kubernetes. Do not apply `deploy/k8s/weekly-cronjob.yaml`.
 
-Re-running the commands is safe. The manifest is `deploy/k8s/weekly-cronjob.yaml`. Pod `restartPolicy` is `Never`. The CronJob starts the next run.
+CronJob `deep-ad-slot-weekly` was applied earlier on 2026-11-03, before that order. This file does not delete it. John can remove it with:
+
+```bash
+kubectl -n default delete cronjob deep-ad-slot-weekly
+```
