@@ -153,5 +153,24 @@ def dump_json(
     console.print_json(json.dumps(result.to_dict()))
 
 
+@app.command("weekly")
+def weekly(
+    out: Path = typer.Option(Path("bus"), help="Directory for the short YAML message"),
+    analytics: Path | None = typer.Option(None, help="Optional analytics JSON"),
+    max_pages: int = typer.Option(2, min=1, max=5),
+) -> None:
+    """Score the three sites on CPU and write one short grok-bot message."""
+    from datetime import datetime, timezone
+
+    from deep_ad_slot.weekly import SITES, build_message, load_analytics, write_message
+
+    analyses = [analyze_site(url, max_pages=max_pages) for url in SITES]
+    stats = load_analytics(analytics)
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    message = build_message(analyses, stats, stamp=stamp)
+    path = write_message(message, out / f"msg-{message['id']}.yaml")
+    console.print(f"WROTE {path}")
+
+
 if __name__ == "__main__":
     app()

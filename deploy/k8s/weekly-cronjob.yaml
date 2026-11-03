@@ -1,0 +1,39 @@
+# Loadable weekly session. The container scores sites on CPU and writes one
+# short YAML file. It does not call a language model and does not log in.
+# A person completes 2FA before grok-bot changes GoDaddy.
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: deep-ad-slot-weekly
+  namespace: default
+spec:
+  schedule: "0 15 * * 1"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: deep-ad-slot
+              image: deep-ad-slot:weekly
+              imagePullPolicy: Never
+              args: ["weekly", "--out", "/bus"]
+              volumeMounts:
+                - name: bus
+                  mountPath: /bus
+                - name: analytics
+                  mountPath: /analytics
+                  readOnly: true
+          volumes:
+            - name: bus
+              hostPath:
+                path: /home/user/.grok/memory/yaml-listen/inbox
+                type: DirectoryOrCreate
+            - name: analytics
+              hostPath:
+                path: /home/user/.grok/memory/yaml-listen/analytics
+                type: DirectoryOrCreate
