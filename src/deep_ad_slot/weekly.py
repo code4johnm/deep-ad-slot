@@ -11,6 +11,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from deep_ad_slot.cooks_defense import DOMAIN as COOKS_DOMAIN
+from deep_ad_slot.cooks_defense import package_rows, policy_lines
+
 # Layout-only slots the pages do not have, or that cover crisis UI.
 SKIP_SLOTS = {"in-content-outstream", "sticky-rail"}
 KEEP_AT = 70.0
@@ -55,8 +58,8 @@ def decide(score: float, feedback: dict[str, Any]) -> str:
 def bus_text(rows: list[dict[str, str]]) -> str:
     lines = [
         "Weekly ad adjustment. CPU layout scores plus analytics. No model call produced this note.",
-        "Human step: complete the 2FA login, then apply only the keep/move lines in the GoDaddy file manager.",
-        "Do not invent numeric ad-unit ids. Do not place ads on the Cooks Defense hotline, hero buttons, or contact forms.",
+        "Human step: complete the 2FA login, then apply the keep/move lines and the Cooks Defense live/placeholder lines in the GoDaddy file manager.",
+        *policy_lines(),
         "quantumresearchlabs.com does not resolve. Use quantumresearchlaboratories.com.",
         "",
     ]
@@ -80,6 +83,9 @@ def build_message(
     rows: list[dict[str, str]] = []
     for analysis in analyses:
         domain = str(analysis.domain)
+        if domain == COOKS_DOMAIN:
+            rows.extend(package_rows())
+            continue
         for slot in analysis.placements:
             if slot.slot_id in SKIP_SLOTS:
                 continue

@@ -78,6 +78,10 @@ pip install scikit-learn
 deep-ad-slot ads-txt https://example.com
 ```
 
+## Cooks Defense review package
+
+`examples/cooksdefensellc/` is the approval-safe four-slot package for cooksdefensellc.com while that brochure site is in AdSense review. Only `#cd-ad-mid` is a live unit (300×250 after services). `#cd-ad-nav`, `#cd-ad-footer`, and `#cd-ad-mobile` are house/sponsor placeholders with no `adsbygoogle` tag. Publisher `pub-6397321536815225`. No numeric `data-ad-slot`. Auto ads stay off. Logo, nav, ticker, hero CTAs, `.alert-bar`, the trafficking hotline, the contact form, and `privacy.html` / `terms.html` / `about.html` / `contact.html` stay ad-free.
+
 ## GitHub access
 
 Create a PAT with `repo` scope. Put it in the environment or `.env`:

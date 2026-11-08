@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from deep_ad_slot.cooks_defense import apply_cooks_review_package
 from deep_ad_slot.fetch import domain_of, fetch_site, normalize_url
 from deep_ad_slot.header_bidding import inspect_header_auction, parties_on_page
 from deep_ad_slot.keywords import extract_keywords
@@ -50,7 +51,7 @@ def analyze_site(url: str, max_pages: int = 5) -> Analysis:
         f"Highest-value slots: {names}. Stack: {tech}. "
         f"Auction wrapper: {auction.wrapper if auction.detected else 'not in HTML'}."
     )
-    return Analysis(
+    result = Analysis(
         seed_url=seed,
         domain=domain,
         pages=pages,
@@ -64,3 +65,5 @@ def analyze_site(url: str, max_pages: int = 5) -> Analysis:
         cookie_syncs=syncs,
         sharing_notes=notes,
     )
+    apply_cooks_review_package(result)
+    return result
